@@ -1,0 +1,98 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+:root {
+    --primary: #080a14;
+    --accent: #c6a664;
+    --gold-gradient: linear-gradient(135deg, #c6a664, #f5f3ef, #b8860b);
+    --glass: rgba(15, 23, 42, 0.92);
+    --border: rgba(198, 166, 100, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background: var(--primary); color: #f5f3ef; overflow-x: hidden; }
+
+/* Background Fix for Auth & App */
+#auth-section, #app-section {
+    min-height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                url('https://t3.ftcdn.net/jpg/10/67/00/44/360_F_1067004442_4I1tCiOSqSiVqWj2CX3UbQLjnHGrHpSr.jpg') center/cover no-repeat fixed;
+}
+
+/* Centering Logic */
+.auth-screen { display: flex; align-items: center; justify-content: center; padding: 20px; }
+
+/* Glass Cards */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    padding: 2.5rem;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    margin: auto;
+    width: 100%;
+}
+
+.brand-title { font-family: 'Playfair Display'; color: var(--accent); text-align: center; margin-bottom: 1.5rem; font-size: 2.5rem; }
+
+/* Forms & Grid */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; }
+.full-width { grid-column: span 2; }
+.form-group { margin-bottom: 1rem; }
+label { display: block; font-size: 10px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; font-weight: 600; letter-spacing: 1px; }
+
+input, select, textarea { 
+    width: 100%; padding: 12px; background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 13px; outline: none; 
+}
+input:focus { border-color: var(--accent); background: rgba(198, 166, 100, 0.1); }
+
+/* Buttons */
+.btn { padding: 14px; border-radius: 12px; border: none; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; text-align: center; }
+.btn-gold { background: var(--gold-gradient); color: #080a14; }
+.btn-outline { background: transparent; border: 1.5px solid var(--accent); color: var(--accent); }
+.btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+/* Navigation */
+nav { background: rgba(0,0,0,0.95); padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+.nav-links a { color: white; text-decoration: none; font-size: 11px; margin-left: 20px; cursor: pointer; text-transform: uppercase; opacity: 0.8; }
+.nav-links a:hover { color: var(--accent); opacity: 1; }
+
+.container { padding: 3rem 5%; max-width: 1200px; margin: 0 auto; }
+
+/* Dashboard Tiles (3-Column) */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 30px; }
+.tile { 
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 2.5rem; 
+    border-radius: 20px; text-align: center; cursor: pointer; transition: 0.4s; 
+}
+.tile:hover { border-color: var(--accent); transform: translateY(-10px); background: rgba(198, 166, 100, 0.05); }
+.tile i { font-size: 40px; color: var(--accent); margin-bottom: 15px; }
+
+/* Experience Grid (6-Column/Cards) */
+.experience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 20px; }
+.exp-card { height: 260px; border-radius: 20px; overflow: hidden; position: relative; cursor: pointer; border: 1px solid var(--border); }
+.exp-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.exp-card:hover img { transform: scale(1.1); }
+.exp-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); display: flex; align-items: flex-end; padding: 20px; font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--accent); }
+
+/* Room Status Grid */
+.room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 30px; }
+.room-box { 
+    aspect-ratio: 1; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    font-weight: 700; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+}
+.vacant { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border-color: #2ecc71; }
+.occupied { background: rgba(231, 76, 60, 0.1); color: #e74c3c; border-color: #e74c3c; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.hidden { display: none !important; }
+
+/* Table styling */
+.admin-table { width: 100%; border-collapse: collapse; color: white; margin-top: 20px; }
+.admin-table th { text-align: left; padding: 12px; border-bottom: 2px solid var(--accent); color: var(--accent); font-size: 11px; }
+.admin-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px; }
+
+/* Inovice Print */
+@media print { body * { visibility: hidden; } #billing-content, #billing-content * { visibility: visible; } #billing-content { position: absolute; left: 0; top: 0; width: 100%; } .btn { display: none; } }
