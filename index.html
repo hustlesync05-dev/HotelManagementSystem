@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aurelion Grand | Luxury Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="auth-section" class="auth-screen">
+    <!-- LOGIN CARD (US002/US003) -->
+    <div id="login-card" class="glass-card" style="max-width: 450px;">
+        <h1 class="brand-title">Aurelion Grand</h1>
+        <p class="brand-sub">Private Member Access</p>
+        <div class="form-group"><label>Membership ID</label><input type="text" id="lUser" placeholder="Enter ID"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
+        <button class="btn btn-gold" onclick="login()">Authenticate</button>
+        <button class="btn btn-outline" onclick="showAuth('register')">Request Membership</button>
+    </div>
+
+    <!-- REGISTER CARD (US001 Constraints) -->
+    <div id="register-card" class="glass-card hidden" style="max-width: 650px;">
+        <h2 class="brand-title" style="font-size: 1.8rem;">Guest Registry</h2>
+        <div class="form-grid">
+            <div class="form-group full-width"><label>Customer Name (Max 50)</label><input type="text" id="rName" maxlength="50" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="rEmail" required></div>
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <div style="display:flex; gap:10px;">
+                    <select id="rCode" style="width:80px; padding:10px;"><option>+91</option><option>+1</option></select>
+                    <input type="text" id="rPhone" maxlength="10" placeholder="10 Digits">
+                </div>
+            </div>
+            <div class="form-group"><label>Username (Customer ID)</label><input type="text" id="rUser" minlength="5" maxlength="20" required></div>
+            <div class="form-group"><label>Password (Max 30)</label><input type="password" id="rPass" maxlength="30" required></div>
+            <div class="form-group full-width"><label>Confirm Password</label><input type="password" id="rConf" required></div>
+            <div class="form-group full-width"><label>Mailing Address</label><textarea id="rAddr" rows="2" style="padding-left:15px"></textarea></div>
+        </div>
+        <button class="btn btn-gold" onclick="register()">Create Account</button>
+        <button class="btn btn-outline" onclick="showAuth('login')">Back</button>
+    </div>
+
+    <!-- SUCCESS CARD (Acknowledgement) -->
+    <div id="success-card" class="glass-card hidden">
+        <h2 style="color:#2ecc71;">Consumer Registration successful.</h2>
+        <p style="margin:15px 0;">Membership ID (Randomly generated):</p>
+        <div id="newUid" style="font-size:30px; color:var(--accent); font-weight:700; border:1px dashed var(--accent); padding:15px; border-radius:15px;">---</div>
+        <button class="btn btn-gold" onclick="showAuth('login')">Go to Login</button>
+    </div>
+</div>
+
+<div id="app-section" class="hidden">
+    <nav>
+        <div class="logo">Aurelion Grand</div>
+        <div class="nav-links" id="mainNav"></div>
+        <div id="userDisplay" style="color:var(--accent); font-size:12px; font-weight:bold;"></div>
+    </nav>
+
+    <div class="container">
+        <!-- HOME PAGE -->
+        <div id="p-home" class="page">
+            <h1 style="font-family:'Playfair Display'; font-size:3.5rem;">Greetings, <span id="userName" style="color:var(--accent)"></span></h1>
+            
+            <div class="grid" id="dashboardTiles">
+                <!-- Tiles injected by JS based on role -->
+            </div>
+
+            <h2 style="margin:70px 0 20px; font-family:'Playfair Display';">Hotel Experiences</h2>
+            <div class="experience-grid" id="expGrid"></div>
+        </div>
+
+        <!-- RESERVATION (US006) -->
+        <div id="p-res" class="page hidden">
+            <h2 style="color:var(--accent); font-family:'Playfair Display';">Booking Desk</h2>
+            <div class="glass-card" style="margin-top:30px; max-width:550px;">
+                <div class="form-group"><label>Check-in Date</label><input type="date" id="cin" onchange="limitCout()"></div>
+                <div class="form-group"><label>Check-out Date</label><input type="date" id="cout"></div>
+                <div class="form-group">
+                    <label>Suite & Daily Pricing</label>
+                    <select id="suitePrice">
+                        <option value="450">Imperial Suite - $450/Night</option>
+                        <option value="1200">Gold Presidential - $1200/Night</option>
+                    </select>
+                </div>
+                <button class="btn btn-gold" onclick="submitBooking()">Request Reservation</button>
+            </div>
+        </div>
+
+        <!-- ROOM STATUS (US012) -->
+        <div id="p-status" class="page hidden">
+            <h2 style="color:var(--accent); font-family:'Playfair Display';">Room Occupancy Map</h2>
+            <div class="room-grid" id="roomContainer"></div>
+        </div>
+
+        <!-- BILLING (US014 Validations) -->
+        <div id="p-bill" class="page hidden">
+            <h2 style="color:var(--accent); font-family:'Playfair Display';">Billing & Payment</h2>
+            <div id="billing-content" style="margin-top:20px;"></div>
+        </div>
+
+        <!-- ADMIN PANELS -->
+        <div id="p-admin-queue" class="page hidden">
+            <h2 style="color:var(--accent); font-family:'Playfair Display';">Approval Queue</h2>
+            <div id="queue-list" style="margin-top:20px;"></div>
+        </div>
+        <div id="p-admin-history" class="page hidden">
+            <h2 style="color:var(--accent); font-family:'Playfair Display';">Payment History</h2>
+            <div class="glass-card" style="max-width:100%; margin-top:20px;"><table class="admin-table" id="history-table"></table></div>
+        </div>
+        <!-- CONCIERGE PAGE (US016) -->
+<div id="p-concierge" class="page hidden">
+    <h2 style="color:var(--accent); font-family:'Playfair Display';">Concierge & Support</h2>
+    <div id="concierge-content" style="margin-top:20px;"></div>
+</div>
+    </div>
+</div>
+
+<!-- EXPERIENCE MODAL -->
+<div id="exp-modal" class="modal hidden">
+    <div class="glass-card" id="modal-body" style="max-width:750px; text-align:left; border-color:var(--accent);"></div>
+</div>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
